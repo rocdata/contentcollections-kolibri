@@ -1,3 +1,9 @@
+# data caches
+kolibri_db/reports/databases
+kolibri_db/reports/kolibrihtmltrees
+reports/databases
+reports/kolibrihtmltrees
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,21 @@
+
+# data
+PyYAML==5.3.1
+pycountry==20.7.3
+beautifulsoup4==4.9.3
+html5lib==1.1
+requests==2.24.0
+
+# markup
+markdown==3.3.3
+pandoc==1.0.2
+
+# dev
+ipython==7.16.1
+pyflakes==2.2.0
+
+# devops
+python-dotenv==0.14.0
+# fab-classic is a Fabric fork with py3 support, but faithful to the old API
+fab-classic==1.18.1
+
