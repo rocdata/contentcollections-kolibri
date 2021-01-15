@@ -23,6 +23,7 @@ from contextlib import redirect_stdout
 from itertools import groupby
 from operator import itemgetter
 import os
+from os.path import abspath, dirname, join
 import io
 import json
 import requests
@@ -31,13 +32,29 @@ import subprocess
 import uuid
 
 
+# DATA DIRS
+################################################################################
+
+BASE_DIR = dirname(dirname(abspath(__file__)))
+
+DATABSES_DIR = os.path.join(BASE_DIR, 'data', 'databases')
+if not os.path.exists(DATABSES_DIR):
+    os.makedirs(DATABSES_DIR)
+
+KOLIBRITREES_DIR = os.path.join(BASE_DIR, 'data', 'kolibritrees')
+if not os.path.exists(KOLIBRITREES_DIR):
+    os.makedirs(KOLIBRITREES_DIR)
+
+KOLIBRI_TREE_HTMLEXPORT_DIR = os.path.join(BASE_DIR, 'data', 'kolibrihtmltrees')
+if not os.path.exists(KOLIBRI_TREE_HTMLEXPORT_DIR):
+    os.makedirs(KOLIBRI_TREE_HTMLEXPORT_DIR)
+
+
+
 
 # DATABASE
 ################################################################################
 
-DATABSES_DIR = 'reports/databases'
-if not os.path.exists(DATABSES_DIR):
-    os.makedirs(DATABSES_DIR)
 
 STUDIO_SERVER_LOOKUP = {
     'production': 'https://studio.learningequality.org',
@@ -328,22 +345,17 @@ def export_kolibri_json_tree(channel_id=None, db_file_path=None, suffix='', serv
     kolibri_tree = get_tree(conn)
     conn.close()
 
-    if db_file_path:
-        pre_filename = db_file_path.split(os.pathsep)[-1].replace('.sqlite3', '')
-        json_filename = pre_filename + suffix + '.json'
-    else:
-        json_filename = channel_id + suffix + '.json'
+    channel_id = kolibri_tree['id']
+    dest_path = os.path.join(KOLIBRITREES_DIR, channel_id + suffix + '.json')
 
-    with open(json_filename, 'w') as jsonf:
+    with open(dest_path, 'w') as jsonf:
         json.dump(kolibri_tree, jsonf, indent=2, ensure_ascii=False, sort_keys=True)
-    print('Channel exported as Kolibri JSON Tree in ' + json_filename)
+    print('Channel exported as Kolibri JSON Tree in ' + dest_path)
 
 
 
 # HTML EXPORTS
 ################################################################################
-
-KOLIBRI_TREE_HTMLEXPORT_DIR = 'reports/kolibrihtmltrees'
 
 def export_kolibritree_as_html(kolibritree, maxlevel=7):
     """

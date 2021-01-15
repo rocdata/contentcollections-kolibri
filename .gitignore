@@ -1,8 +1,13 @@
-# data caches
+# data dirs
+data/databases
+data/kolibrihtmltrees
+
+# old data dirs
 kolibri_db/reports/databases
 kolibri_db/reports/kolibrihtmltrees
 reports/databases
 reports/kolibrihtmltrees
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
